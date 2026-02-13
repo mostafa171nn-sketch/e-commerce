@@ -1,10 +1,15 @@
- 'use client';
+'use client';
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { verifyResetCode } from '../lib/auth';
 
-export default function VerifyResetCodeForm() {
+interface VerifyResetCodeFormProps {
+  initialData?: any;
+}
+
+export default function VerifyResetCodeForm({ initialData }: VerifyResetCodeFormProps) {
+
   const [resetCode, setResetCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
