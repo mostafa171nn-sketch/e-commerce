@@ -23,17 +23,14 @@ const RotatingCard: React.FC = () => {
       backfaceVisibility: 'hidden'
     });
 
-    // Create timeline for animations
     const tl = gsap.timeline({ repeat: -1 });
 
-    // Continuous Y rotation
     tl.to(card, {
       rotationY: 360,
-      duration: 20, // Slow elegant speed
+      duration: 20, 
       ease: 'none'
     }, 0);
 
-    // Subtle floating Y-axis movement
     tl.to(card, {
       y: -10,
       duration: 3,
@@ -42,7 +39,6 @@ const RotatingCard: React.FC = () => {
       repeat: -1
     }, 0);
 
-    // Dynamic lighting effect - moving gradient
     const gradientOverlay = card.querySelector('.gradient-overlay') as HTMLElement;
     if (gradientOverlay) {
       gsap.to(gradientOverlay, {
@@ -71,7 +67,6 @@ const RotatingCard: React.FC = () => {
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
         }}
       >
-        {/* Gradient overlay for lighting effect */}
         <div
           className="gradient-overlay absolute inset-0 rounded-2xl opacity-30"
           style={{
@@ -80,7 +75,6 @@ const RotatingCard: React.FC = () => {
           }}
         />
 
-        {/* Card content */}
         <div className="relative z-10 h-full flex flex-col items-center justify-center p-8 text-white">
           <div className="text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -93,7 +87,6 @@ const RotatingCard: React.FC = () => {
           </div>
         </div>
 
-        {/* Additional 3D elements for depth */}
         <div
           className="absolute inset-0 rounded-2xl border border-white/10"
           style={{
@@ -102,7 +95,6 @@ const RotatingCard: React.FC = () => {
         />
       </div>
 
-      {/* Ambient background effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>

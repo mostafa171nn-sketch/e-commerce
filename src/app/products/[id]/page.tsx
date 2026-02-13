@@ -81,14 +81,12 @@ export default function ProductDetail() {
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        // Check if it's a local product first
         if (localProducts[id]) {
           setProduct(localProducts[id]);
           setLoading(false);
           return;
         }
 
-        // Otherwise fetch from API
         const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch product');
@@ -128,7 +126,6 @@ export default function ProductDetail() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
-            {/* Left side: Large product image */}
             <div className="aspect-square overflow-hidden rounded-lg">
               <img
                 src={product.imageCover}
@@ -137,7 +134,6 @@ export default function ProductDetail() {
               />
             </div>
 
-            {/* Right side: Product details */}
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.title}</h1>

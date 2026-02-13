@@ -48,7 +48,6 @@ export default function VerifyResetCodeForm({ initialData }: VerifyResetCodeForm
     try {
       const result = await verifyResetCode(email, trimmedCode);
       setMessage('Reset code verified successfully.');
-      // Redirect to reset password page with email and resetCode
       setTimeout(() => {
         router.push(`/reset-password?email=${encodeURIComponent(email)}&resetCode=${encodeURIComponent(trimmedCode)}`);
       }, 1000);

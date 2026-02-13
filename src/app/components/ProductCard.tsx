@@ -71,7 +71,6 @@ const ProductCard = React.memo(function ProductCard({ product }: ProductCardProp
             unoptimized
             className="object-cover hover:scale-105 transition-transform duration-300"
           />
-          {/* Heart icon positioned absolutely in top-right corner */}
           <button
             onClick={handleWishlistToggle}
             className="absolute top-2 right-2 p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition-all duration-200"

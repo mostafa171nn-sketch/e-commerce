@@ -65,16 +65,13 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
       }
     }
 
-    // No data found anywhere
     setWishlist([]);
   };
 
-  // Load wishlist on mount and when user state changes
   useEffect(() => {
     loadFromLocalStorage();
   }, [user?.id]);
 
-  // Handle authentication changes
   useEffect(() => {
     if (isAuthenticated && token) {
       const syncWithAPI = async () => {
@@ -83,17 +80,14 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
         try {
           const apiWishlist = await getWishlist(token);
 
-          // Start with current localStorage data as base
           let currentWishlist = [...wishlist];
 
-          // Add any API items that aren't already in the current wishlist
           apiWishlist.forEach((apiItem: WishlistItem) => {
             if (!currentWishlist.some(localItem => localItem.id === apiItem.id)) {
               currentWishlist.push(apiItem);
             }
           });
 
-          // Merge guest wishlist if exists (transfer to user account)
           const guestWishlist = localStorage.getItem('guest_wishlist');
           if (guestWishlist) {
             try {
@@ -106,20 +100,18 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
               });
               localStorage.removeItem('guest_wishlist');
             } catch (err) {
-              // ignore
+            
             }
           }
 
           setWishlist(currentWishlist);
         } catch (err: any) {
-          // Only show error if no local wishlist data is available
           if (wishlist.length === 0) {
             setError('Failed to load wishlist');
           }
           if (err.message.includes('Unauthorized')) {
             logout();
           }
-          // Keep localStorage data if API fails - don't change the wishlist
         } finally {
           setLoading(false);
         }
@@ -130,10 +122,8 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
   }, [isAuthenticated, token, logout]);
 
   useEffect(() => {
-    // Always save to guest_wishlist for persistence
     localStorage.setItem('guest_wishlist', JSON.stringify(wishlist));
 
-    // Also save to user-specific key if authenticated
     if (isAuthenticated && user?.id) {
       localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(wishlist));
     }
@@ -152,7 +142,6 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
       try {
         await addToWishlist(product.id, token);
       } catch (err: any) {
-        // Don't revert the state - keep the item in wishlist for local persistence
         if (err.message.includes('Unauthorized')) {
           setError('Session expired. Please log in again.');
           logout();

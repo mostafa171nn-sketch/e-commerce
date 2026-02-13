@@ -8,7 +8,6 @@ export default function HiddenAdminLogin() {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Check for Ctrl+Alt+4
       if (event.ctrlKey && event.altKey && event.key === '4') {
         event.preventDefault();
         router.push('/gatekeeper');
@@ -22,6 +21,5 @@ export default function HiddenAdminLogin() {
     };
   }, [router]);
 
-  // This component renders nothing
   return null;
 }
