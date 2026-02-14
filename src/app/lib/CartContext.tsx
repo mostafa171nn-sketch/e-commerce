@@ -48,7 +48,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Load cart when user state is determined (on mount or login/logout)
   useEffect(() => {
     setIsLoading(true);
+    
     if (user && user.id) {
+      // User is logged in - load their specific cart
       const storedCart = localStorage.getItem(`cart_${user.id}`);
       if (storedCart) {
         try {
@@ -59,25 +61,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           setCart([]);
         }
       } else {
-        // Load guest cart if no user cart
-        const guestCart = localStorage.getItem('guest_cart');
-        if (guestCart) {
-          try {
-            const parsedCart = JSON.parse(guestCart);
-            setCart(parsedCart);
-            // Save to user cart
-            localStorage.setItem(`cart_${user.id}`, JSON.stringify(parsedCart));
-            // Clear guest cart
-            localStorage.removeItem('guest_cart');
-          } catch (error) {
-            setCart([]);
-          }
-        } else {
-          setCart([]);
-        }
+        // No existing cart for this user, start fresh
+        setCart([]);
       }
     } else {
-      // User not logged in, load guest cart
+      // User not logged in - load guest cart
       const guestCart = localStorage.getItem('guest_cart');
       if (guestCart) {
         try {
@@ -91,12 +79,17 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       }
     }
     setIsLoading(false);
-  }, [user]);
+  }, [user?.id]);
+
 
   useEffect(() => {
-    const key = user?.id ? `cart_${user.id}` : 'guest_cart';
-    localStorage.setItem(key, JSON.stringify(cart));
-  }, [cart, user?.id]);
+    // Only save if cart has been loaded (prevent overwriting during init)
+    if (!isLoading) {
+      const key = user?.id ? `cart_${user.id}` : 'guest_cart';
+      localStorage.setItem(key, JSON.stringify(cart));
+    }
+  }, [cart, user?.id, isLoading]);
+
 
   const addToCart = (product: Omit<CartItem, 'quantity'>) => {
     setCart(prevCart => {

@@ -194,8 +194,10 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
       const allProducts = [...apiProducts, ...mappedLocalProducts];
       setProducts(allProducts);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      // Silently handle errors - don't show error UI
+      console.error('Error fetching products:', err);
     } finally {
+
       setLoading(false);
     }
   };

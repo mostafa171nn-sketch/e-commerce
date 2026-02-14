@@ -46,13 +46,12 @@ const Categories: React.FC = () => {
     );
   }
 
+  // Silently handle errors - don't show error UI
   if (error) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-500">Error loading categories: {error}</p>
-      </div>
-    );
+    console.warn('Categories fetch error:', error);
+    return null;
   }
+
 
   return (
     <section className="mb-12">

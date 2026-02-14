@@ -71,7 +71,33 @@ export default function ProductCategoryFilter({ onCategoryChange }: ProductCateg
   return (
     <div className="mb-8">
       <h3 className="text-3xl font-semibold text-gray-900 mb-4 text-center">Filter <span className="text-green-600">by</span> Category</h3>
-      <div className="flex flex-wrap gap-2 justify-center mb-8">
+      
+      <div className="flex md:hidden justify-center mb-8">
+        <div className="relative min-w-[220px]">
+          <select
+            value={selectedCategory}
+            onChange={(e) => handleCategoryClick(e.target.value)}
+            className="w-full appearance-none px-5 py-3 rounded-xl text-sm font-semibold bg-white text-gray-800 border-2 border-gray-200 focus:outline-none focus:border-green-300 focus:ring-4 focus:ring-blue-500/10 cursor-pointer shadow-sm hover:shadow-md transition-all duration-200"
+
+          >
+            <option value="">All Categories</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+
+      <div className="hidden md:flex flex-wrap gap-2 justify-center mb-8">
+
         <button
           onClick={() => handleCategoryClick('')}
           className={`px-4 py-2 rounded-full text-sm font-medium ${

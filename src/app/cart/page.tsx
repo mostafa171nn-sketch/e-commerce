@@ -59,7 +59,9 @@ export default function CartPage() {
                     <h3 className="text-lg font-semibold text-black/70 truncate">
                       {item.title}
                     </h3>
-                    <p className="text-black/70">${item.price.toFixed(2)} each</p>
+                    <p className="text-black/70">{item.price.toFixed(0)} EGP each</p>
+
+
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="flex items-center border border-gray-300 rounded-md">
@@ -88,8 +90,10 @@ export default function CartPage() {
                 <div className="mt-4 flex justify-between items-center">
                   <span className="text-sm text-black/70">Subtotal:</span>
                   <span className="text-lg font-semibold text-black/70">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {(item.price * item.quantity).toFixed(0)} EGP
                   </span>
+
+
                 </div>
               </div>
             ))}
@@ -102,7 +106,9 @@ export default function CartPage() {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between">
                 <span className="text-black/70">Items ({totalItems}):</span>
-                <span className="text-black/70">${totalPrice.toFixed(2)}</span>
+                <span className="text-black/70">{totalPrice.toFixed(0)} EGP</span>
+
+
               </div>
               <div className="flex justify-between">
                 <span className="text-black/70">Shipping:</span>
@@ -112,7 +118,9 @@ export default function CartPage() {
               <hr className="my-3" />
               <div className="flex justify-between text-lg font-semibold">
                 <span className="text-black/70">Total:</span>
-                <span className="text-black/70">${(totalPrice + totalPrice * 0.08).toFixed(2)}</span>
+                <span className="text-black/70">{(totalPrice + totalPrice * 0.08).toFixed(0)} EGP</span>
+
+
               </div>
             </div>
 

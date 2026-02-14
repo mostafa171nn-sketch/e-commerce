@@ -19,13 +19,7 @@ export default function BrandDetailPage() {
     );
   }
 
-  if (productsError) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-600 text-lg">Error: {productsError}</p>
-      </div>
-    );
-  }
+
 
   if (!brand) {
     return (
@@ -53,7 +47,7 @@ export default function BrandDetailPage() {
               <p className="text-gray-600 text-lg">No products found for this brand.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
               {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

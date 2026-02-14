@@ -68,8 +68,70 @@ const localProducts: { [key: string]: Product } = {
     description: 'Professional condenser microphone perfect for recording vocals, instruments, and podcasts. Includes shock mount, pop filter, and XLR cable. Features cardioid polar pattern and high sensitivity for clear audio capture.',
     brand: { name: 'StudioPro' },
     images: ['https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=500']
+  },
+  '9': {
+    id: 9,
+    title: 'Smartphone',
+    price: 699.99,
+    imageCover: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500',
+    ratingsAverage: 4.8,
+    description: 'Latest smartphone with advanced camera system, fast processor, and all-day battery life. Features 5G connectivity, OLED display, and premium build quality.',
+    brand: { name: 'TechMobile' },
+    images: ['https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500']
+  },
+  '10': {
+    id: 10,
+    title: 'Laptop',
+    price: 1299.99,
+    imageCover: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500',
+    ratingsAverage: 4.6,
+    description: 'High-performance laptop for work and gaming. Features latest generation processor, dedicated graphics, and high-resolution display. Perfect for professionals and content creators.',
+    brand: { name: 'CompuTech' },
+    images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500']
+  },
+  '11': {
+    id: 11,
+    title: 'Programming Book',
+    price: 49.99,
+    imageCover: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500',
+    ratingsAverage: 4.5,
+    description: 'Comprehensive programming book covering modern development practices. Perfect for beginners and experienced developers looking to expand their skills.',
+    brand: { name: 'TechBooks' },
+    images: ['https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500']
+  },
+  '12': {
+    id: 12,
+    title: 'Fiction Novel',
+    price: 19.99,
+    imageCover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500',
+    ratingsAverage: 4.3,
+    description: 'Bestselling fiction novel with captivating storytelling. A must-read for book lovers looking for an immersive reading experience.',
+    brand: { name: 'BookWorld' },
+    images: ['https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500']
+  },
+  '17': {
+    id: 17,
+    title: 'iPhone 14',
+    price: 999.99,
+    imageCover: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500',
+    ratingsAverage: 4.9,
+    description: 'Latest iPhone with advanced camera system, A15 Bionic chip, and all-day battery life. Features 5G connectivity and Super Retina XDR display.',
+    brand: { name: 'Apple' },
+    images: ['https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500']
+  },
+  '18': {
+    id: 18,
+    title: 'Samsung Galaxy S23',
+    price: 899.99,
+    imageCover: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=500',
+    ratingsAverage: 4.7,
+    description: 'Premium Android smartphone with stunning display, powerful processor, and professional-grade camera system. Features 5G and wireless charging.',
+    brand: { name: 'Samsung' },
+    images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=500']
   }
 };
+
+
 
 export default function ProductDetail() {
   const params = useParams();
@@ -89,13 +151,17 @@ export default function ProductDetail() {
 
         const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch product');
+          // Silently fail - don't show error UI
+          console.warn('Failed to fetch product from API, using local data if available');
+          return;
         }
         const data = await response.json();
         setProduct(data.data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        // Silently handle errors - don't show error UI
+        console.error('Error fetching product:', err);
       } finally {
+
         setLoading(false);
       }
     };
@@ -113,13 +179,14 @@ export default function ProductDetail() {
     );
   }
 
-  if (error || !product) {
+  if (!product) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600 text-lg">Error: {error || 'Product not found'}</p>
+        <p className="text-gray-600 text-lg">Product not found</p>
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -141,7 +208,9 @@ export default function ProductDetail() {
                   <FontAwesomeIcon icon={faStar} className="text-yellow-400 text-lg mr-1" />
                   <span className="text-lg text-gray-600">{product.ratingsAverage.toFixed(1)}</span>
                 </div>
-                <p className="text-2xl font-bold text-green-600 mb-4">${product.price}</p>
+                <p className="text-2xl font-bold text-green-600 mb-4">{product.price.toFixed(0)} EGP</p>
+
+
               </div>
 
               <div>

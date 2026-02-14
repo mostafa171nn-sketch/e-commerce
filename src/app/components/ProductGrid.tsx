@@ -45,13 +45,7 @@ const ProductGrid = React.memo(function ProductGrid({ categoryId }: ProductGridP
     );
   }
 
-  if (error) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-600 text-lg">Error: {error}</p>
-      </div>
-    );
-  }
+
 
   if (filteredProducts.length === 0) {
     return (
@@ -62,12 +56,17 @@ const ProductGrid = React.memo(function ProductGrid({ categoryId }: ProductGridP
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6 w-full">
-      {filteredProducts.map((product: Product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div className="w-full px-2 sm:px-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4 auto-rows-fr">
+
+        {filteredProducts.map((product: Product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </div>
   );
+
+
 
 });
 

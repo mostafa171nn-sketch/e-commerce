@@ -46,18 +46,13 @@ export default function BrandsPage() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-600 text-lg">Error: {error}</p>
-      </div>
-    );
-  }
+
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-5xl font-bold text-center text-black mb-8">Brands</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+
         {memoizedBrands.map((brand) => (
           <Link key={brand._id} href={`/brands/${brand._id}`}>
             <div className="text-black/50 rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer">

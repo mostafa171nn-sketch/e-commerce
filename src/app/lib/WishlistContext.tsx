@@ -35,42 +35,47 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
   const [error, setError] = useState<string | null>(null);
 
   const loadFromLocalStorage = () => {
-    // Try all possible localStorage keys to find existing wishlist data
-    const possibleKeys = [];
-
-    // Add user-specific key if we have user id and it's not empty
     if (user?.id && user.id !== '') {
-      possibleKeys.push(`wishlist_${user.id}`);
-    }
-
-    // Always check guest wishlist
-    possibleKeys.push('guest_wishlist');
-
-    // Check legacy key for backward compatibility
-    possibleKeys.push('wishlist_');
-
-    // Try to find any existing wishlist data
-    for (const key of possibleKeys) {
-      const storedData = localStorage.getItem(key);
+      // User is logged in - load their specific wishlist
+      const storedData = localStorage.getItem(`wishlist_${user.id}`);
       if (storedData) {
         try {
           const parsedData = JSON.parse(storedData);
-          if (Array.isArray(parsedData) && parsedData.length > 0) {
+          if (Array.isArray(parsedData)) {
             setWishlist(parsedData);
-            return; // Found data, stop looking
+            return;
           }
         } catch (err) {
-          // Continue to next key
+          console.error('Failed to parse wishlist:', err);
+        }
+      }
+    } else {
+      // User not logged in - load guest wishlist
+      const guestData = localStorage.getItem('guest_wishlist');
+      if (guestData) {
+        try {
+          const parsedData = JSON.parse(guestData);
+          if (Array.isArray(parsedData)) {
+            setWishlist(parsedData);
+            return;
+          }
+        } catch (err) {
+          console.error('Failed to parse guest wishlist:', err);
         }
       }
     }
 
+    // No data found, start with empty wishlist
     setWishlist([]);
   };
 
+
   useEffect(() => {
+    // Clear wishlist when user changes, then load new user's data
+    setWishlist([]);
     loadFromLocalStorage();
   }, [user?.id]);
+
 
   useEffect(() => {
     if (isAuthenticated && token) {
@@ -122,12 +127,18 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
   }, [isAuthenticated, token, logout]);
 
   useEffect(() => {
-    localStorage.setItem('guest_wishlist', JSON.stringify(wishlist));
-
-    if (isAuthenticated && user?.id) {
-      localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(wishlist));
+    // Only save if not loading (prevent overwriting during init)
+    if (!loading) {
+      if (isAuthenticated && user?.id) {
+        // Save to user-specific wishlist
+        localStorage.setItem(`wishlist_${user.id}`, JSON.stringify(wishlist));
+      } else {
+        // Save to guest wishlist
+        localStorage.setItem('guest_wishlist', JSON.stringify(wishlist));
+      }
     }
-  }, [wishlist, isAuthenticated, user?.id]);
+  }, [wishlist, isAuthenticated, user?.id, loading]);
+
 
   const handleAddToWishlist = async (product: WishlistItem) => {
     if (isInWishlist(product.id)) {

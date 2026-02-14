@@ -370,8 +370,10 @@ export default function CheckoutContent() {
                 disabled={isProcessing}
                 className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isProcessing ? 'Processing...' : `Place Order - $${totalPrice.toFixed(2)}`}
+                {isProcessing ? 'Processing...' : `Place Order - ${totalPrice.toFixed(0)} EGP`}
+
               </button>
+
             </form>
           </div>
 
@@ -391,8 +393,10 @@ export default function CheckoutContent() {
                     <p className="text-sm text-black/70">Qty: {item.quantity}</p>
                   </div>
                   <p className="font-medium text-black/70">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {(item.price * item.quantity).toFixed(0)} EGP
+
                   </p>
+
                 </div>
               ))}
             </div>
@@ -420,9 +424,11 @@ export default function CheckoutContent() {
             <div className="border-t border-gray-300 mt-6 pt-4">
               <div className="flex justify-between text-lg font-semibold text-black">
                 <span>Total:</span>
-                <span>${totalPrice.toFixed(2)}</span>
+                <span>{totalPrice.toFixed(0)} EGP</span>
+
               </div>
             </div>
+
           </div>
         </div>
       </div>
