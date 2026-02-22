@@ -63,7 +63,6 @@ export const OrdersProvider: React.FC<OrdersProviderProps> = ({ children }) => {
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [cartActivity, setCartActivity] = useState<CartActivity[]>([]);
 
-  // Load orders and activity from localStorage on mount or user change
   useEffect(() => {
     if (user?.email) {
       const storedOrders = localStorage.getItem(`orders_${user.email}`);
@@ -96,7 +95,6 @@ export const OrdersProvider: React.FC<OrdersProviderProps> = ({ children }) => {
     }
   }, [user?.email]);
 
-  // Save to localStorage whenever data changes
   useEffect(() => {
     if (user?.email) {
       localStorage.setItem(`orders_${user.email}`, JSON.stringify(orders));
@@ -142,7 +140,7 @@ export const OrdersProvider: React.FC<OrdersProviderProps> = ({ children }) => {
       id: Date.now().toString(),
       timestamp: new Date().toISOString(),
     };
-    setCartActivity(prev => [newActivity, ...prev.slice(0, 49)]); // Keep last 50 activities
+    setCartActivity(prev => [newActivity, ...prev.slice(0, 49)]); 
   };
 
   const clearCartActivity = () => {

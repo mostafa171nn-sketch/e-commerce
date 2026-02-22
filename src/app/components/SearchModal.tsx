@@ -26,7 +26,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { products } = useProducts();
 
-  // Static pages and brands for search
   const staticItems: SearchResult[] = [
     { id: 'home', title: 'Home', type: 'page', href: '/' },
     { id: 'products', title: 'Products', type: 'page', href: '/products' },
@@ -36,13 +35,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     { id: 'profile', title: 'Profile', type: 'page', href: '/profile' },
     { id: 'login', title: 'Login', type: 'page', href: '/login' },
     { id: 'signup', title: 'Sign Up', type: 'page', href: '/signup' },
-    // Common brands
     { id: 'brand-apple', title: 'Apple', type: 'brand', href: '/brands/apple' },
     { id: 'brand-samsung', title: 'Samsung', type: 'brand', href: '/brands/samsung' },
     { id: 'brand-nike', title: 'Nike', type: 'brand', href: '/brands/nike' },
     { id: 'brand-adidas', title: 'Adidas', type: 'brand', href: '/brands/adidas' },
     { id: 'brand-sony', title: 'Sony', type: 'brand', href: '/brands/sony' },
-    // Categories
     { id: 'cat-electronics', title: 'Electronics', type: 'category', href: '/products?category=electronics' },
     { id: 'cat-fashion', title: 'Fashion', type: 'category', href: '/products?category=fashion' },
     { id: 'cat-music', title: 'Music', type: 'category', href: '/products?category=music' },
@@ -64,7 +61,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     const searchTerm = query.toLowerCase();
     const allResults: SearchResult[] = [];
 
-    // Search in products
     products.forEach((product) => {
       if (product.title.toLowerCase().includes(searchTerm)) {
         allResults.push({
@@ -77,14 +73,12 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       }
     });
 
-    // Search in static items (pages, brands, categories)
     staticItems.forEach((item) => {
       if (item.title.toLowerCase().includes(searchTerm)) {
         allResults.push(item);
       }
     });
 
-    // Limit results to 10
     setResults(allResults.slice(0, 10));
   }, [query, products]);
 
@@ -134,7 +128,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Search Input */}
           <div className="flex items-center border-b border-gray-200 p-4">
             <FontAwesomeIcon icon={faSearch} className="text-gray-400 text-lg mr-3" />
             <input
@@ -153,7 +146,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             </button>
           </div>
 
-          {/* Results */}
           <div className="max-h-96 overflow-y-auto">
             {results.length === 0 && query.trim() && (
               <div className="p-8 text-center text-gray-500">
@@ -211,7 +203,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             ))}
           </div>
 
-          {/* Footer */}
           {results.length > 0 && (
             <div className="p-3 bg-gray-50 border-t border-gray-200 text-center">
               <p className="text-xs text-gray-500">

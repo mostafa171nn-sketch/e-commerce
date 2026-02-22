@@ -28,7 +28,7 @@ export default function LoginPage() {
   }
 
   if (isAuthenticated) {
-    return null; // Will redirect
+    return null; 
   }
 
   return (

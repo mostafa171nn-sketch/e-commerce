@@ -24,21 +24,18 @@ interface ProductCardProps {
   product: Product;
 }
 
-// Helper function to generate mock data for demo purposes
 const getProductWithMockData = (product: Product): Product => {
-  // Generate deterministic mock data based on product id
-  const hasDiscount = product.id % 3 === 0; // Every 3rd product has discount
-  const discountPercent = hasDiscount ? Math.floor((product.id % 5) + 10) * 5 : 0; // 10-30% discount
+  const hasDiscount = product.id % 3 === 0; 
+  const discountPercent = hasDiscount ? Math.floor((product.id % 5) + 10) * 5 : 0; 
   
   const mockColors = [
-    '#1a1a1a', // Black
-    '#8B4513', // Brown
-    '#D2691E', // Chocolate
-    '#A52A2A', // Brown-red
-    '#2F4F4F', // Dark slate
+    '#1a1a1a',
+    '#8B4513',
+    '#D2691E', 
+    '#A52A2A', 
+    '#2F4F4F', 
   ];
   
-  // Select 2-4 colors based on product id
   const colorCount = 2 + (product.id % 3);
   const selectedColors = mockColors.slice(0, colorCount);
   
@@ -56,7 +53,6 @@ const ProductCard = React.memo(function ProductCard({ product }: ProductCardProp
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
 
-  // Enhance product with mock discount data for demonstration
   const enhancedProduct = getProductWithMockData(product);
   const { priceBefore, discount } = enhancedProduct;
 
@@ -98,7 +94,6 @@ const ProductCard = React.memo(function ProductCard({ product }: ProductCardProp
   return (
     <div className="group relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden h-full flex flex-col">
       <Link href={`/products/${product.id}`} className="block flex flex-col h-full">
-        {/* Image Container - 3:4 Aspect Ratio */}
         <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
           <Image
             src={product.imageCover}
@@ -109,14 +104,12 @@ const ProductCard = React.memo(function ProductCard({ product }: ProductCardProp
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
           
-          {/* Discount Badge - Top Left */}
           {discount && discount > 0 && (
             <div className="absolute top-2 left-2 bg-red-500 text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded-sm shadow-sm">
               -{discount}%
             </div>
           )}
           
-          {/* Wishlist Button - Top Right */}
           <button
             onClick={handleWishlistToggle}
             className="absolute top-2 right-2 p-1.5 sm:p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-200 shadow-sm"
@@ -129,14 +122,11 @@ const ProductCard = React.memo(function ProductCard({ product }: ProductCardProp
           </button>
         </div>
 
-        {/* Content Container */}
         <div className="p-2 sm:p-3 flex flex-col flex-1">
-          {/* Product Title - Fixed height with line-clamp */}
           <h3 className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem] sm:min-h-[2.75rem] leading-tight mb-1.5 sm:mb-2">
             {product.title}
           </h3>
 
-          {/* Price Section with Rating */}
           <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="flex items-center gap-1.5">
               {priceBefore && (
@@ -151,7 +141,6 @@ const ProductCard = React.memo(function ProductCard({ product }: ProductCardProp
 
 
             </div>
-            {/* Rating - Right side */}
             <div className="flex items-center">
               <FontAwesomeIcon icon={faStar} className="text-yellow-400 text-[10px] sm:text-xs mr-1" />
               <span className="text-[10px] sm:text-xs text-gray-600">{product.ratingsAverage.toFixed(1)}</span>
@@ -159,7 +148,6 @@ const ProductCard = React.memo(function ProductCard({ product }: ProductCardProp
           </div>
 
 
-          {/* Add to Cart Button */}
 
           <button
             onClick={handleAddToCart}

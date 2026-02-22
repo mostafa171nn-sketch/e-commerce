@@ -42,7 +42,6 @@ export function AuthProvider({ children }) {
       }
     } catch (error) {
       console.error('Failed to get user profile:', error);
-      // Optionally, you can logout or handle the error
     }
   };
 

@@ -45,12 +45,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const isLoadedRef = useRef(false);
 
-  // Load cart when user state is determined (on mount or login/logout)
   useEffect(() => {
     setIsLoading(true);
     
     if (user && user.id) {
-      // User is logged in - load their specific cart
       const storedCart = localStorage.getItem(`cart_${user.id}`);
       if (storedCart) {
         try {
@@ -61,11 +59,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           setCart([]);
         }
       } else {
-        // No existing cart for this user, start fresh
         setCart([]);
       }
     } else {
-      // User not logged in - load guest cart
       const guestCart = localStorage.getItem('guest_cart');
       if (guestCart) {
         try {
@@ -83,7 +79,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
 
   useEffect(() => {
-    // Only save if cart has been loaded (prevent overwriting during init)
     if (!isLoading) {
       const key = user?.id ? `cart_${user.id}` : 'guest_cart';
       localStorage.setItem(key, JSON.stringify(cart));

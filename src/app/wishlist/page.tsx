@@ -62,7 +62,6 @@ const WishlistPage: React.FC = () => {
 
           {wishlist.map((product) => (
             <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 relative">
-              {/* Delete Button - Top Right on Mobile */}
               <button
                 onClick={() => handleRemoveFromWishlist(product.id)}
                 className="absolute top-2 right-2 z-10 p-2 bg-white/90 backdrop-blur-sm rounded-full text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 shadow-sm sm:hidden"
@@ -110,7 +109,6 @@ const WishlistPage: React.FC = () => {
                     </span>
                   </button>
 
-                  {/* Delete Button - Bottom for larger screens */}
                   <button
                     onClick={() => handleRemoveFromWishlist(product.id)}
                     className="hidden sm:block p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200"

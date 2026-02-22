@@ -151,14 +151,12 @@ export default function ProductDetail() {
 
         const response = await fetch(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
         if (!response.ok) {
-          // Silently fail - don't show error UI
           console.warn('Failed to fetch product from API, using local data if available');
           return;
         }
         const data = await response.json();
         setProduct(data.data);
       } catch (err) {
-        // Silently handle errors - don't show error UI
         console.error('Error fetching product:', err);
       } finally {
 
