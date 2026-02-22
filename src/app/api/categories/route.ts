@@ -28,7 +28,36 @@ export async function GET(request: NextRequest) {
       }
 
       const data = await response.json();
-      return NextResponse.json(data);
+      
+      let categories = data.data || [];
+      
+      const endCategories = ['Music'];
+      const priorityCategories = ['Women\'s Fashion', 'Men\'s Fashion']; 
+      
+      categories.sort((a: any, b: any) => {
+        const aIsEnd = endCategories.includes(a.name);
+        const bIsEnd = endCategories.includes(b.name);
+        const aIsPriority = priorityCategories.includes(a.name);
+        const bIsPriority = priorityCategories.includes(b.name);
+        
+        if (aIsEnd && !bIsEnd) return 1;
+        if (!aIsEnd && bIsEnd) return -1;
+        
+        if (aIsPriority && !bIsPriority) return -1;
+        if (!aIsPriority && bIsPriority) return 1;
+        
+        if (aIsPriority && bIsPriority) {
+          return priorityCategories.indexOf(a.name) - priorityCategories.indexOf(b.name);
+        }
+        
+        if (aIsEnd && bIsEnd) {
+          return endCategories.indexOf(a.name) - endCategories.indexOf(b.name);
+        }
+        
+        return a.name.localeCompare(b.name);
+      });
+      
+      return NextResponse.json({ ...data, data: categories });
     } catch (error: any) {
       if ((error.name === 'AbortError' || error.name === 'TypeError') && attempt < MAX_RETRIES) {
         console.warn(`Attempt ${attempt} failed with ${error.name}, retrying...`);

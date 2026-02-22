@@ -41,6 +41,16 @@ interface ProductProviderProps {
   children: ReactNode;
 }
 
+// Products to be removed from the store
+const productsToRemove = [
+  'Samsung Galaxy S23',
+  'Programming Book',
+  'Fiction Novel',
+  'iPhone 14',
+  'Smartphone',
+  'Guitar Amplifier'
+];
+
 const localProductsData = [
   {
     id: 1,
@@ -69,14 +79,6 @@ const localProductsData = [
     categoryName: 'Music'
   },
   {
-    id: 6,
-    title: 'Guitar Amplifier',
-    price: 249.99,
-    imageCover: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500',
-    ratingsAverage: 4.4,
-    categoryName: 'Music'
-  },
-  {
     id: 8,
     title: 'Studio Microphone',
     price: 149.99,
@@ -86,16 +88,6 @@ const localProductsData = [
     categoryName: 'Music'
   },
   {
-    id: 9,
-    title: 'Smartphone',
-    price: 699.99,
-    imageCover: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500',
-    ratingsAverage: 4.8,
-    brand: { _id: 'brand6' },
-    categoryName: 'Mobiles'
-  },
-
-  {
     id: 10,
     title: 'Laptop',
     price: 1299.99,
@@ -103,40 +95,6 @@ const localProductsData = [
     ratingsAverage: 4.6,
     brand: { _id: 'brand7' },
     categoryName: 'Electronics'
-  },
-  {
-    id: 17,
-    title: 'iPhone 14',
-    price: 999.99,
-    imageCover: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500',
-    ratingsAverage: 4.9,
-    categoryName: 'Mobiles'
-  },
-
-  {
-    id: 18,
-    title: 'Samsung Galaxy S23',
-    price: 899.99,
-    imageCover: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=500',
-    ratingsAverage: 4.7,
-    categoryName: 'Mobiles'
-  },
-
-  {
-    id: 11,
-    title: 'Programming Book',
-    price: 49.99,
-    imageCover: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500',
-    ratingsAverage: 4.5,
-    categoryName: 'Books'
-  },
-  {
-    id: 12,
-    title: 'Fiction Novel',
-    price: 19.99,
-    imageCover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500',
-    ratingsAverage: 4.3,
-    categoryName: 'Books'
   }
 ];
 
@@ -192,11 +150,15 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
       }));
 
       const allProducts = [...apiProducts, ...mappedLocalProducts];
-      setProducts(allProducts);
+      
+      // Filter out the products that should be removed
+      const filteredProducts = allProducts.filter(product => 
+        !productsToRemove.includes(product.title)
+      );
+      setProducts(filteredProducts);
     } catch (err) {
       console.error('Error fetching products:', err);
     } finally {
-
       setLoading(false);
     }
   };
